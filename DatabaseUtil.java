@@ -15,7 +15,7 @@ public final class DatabaseUtil {
     private static final String PASS = "test";
 
     private static final String URL = String.format(
-            "jdbc:mysql://localhost:3306/student_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC",
+            "jdbc:mysql://%s:%d/%s?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC",
             HOST, PORT, DB);
 
 
@@ -34,4 +34,5 @@ public final class DatabaseUtil {
         return DriverManager.getConnection(URL, USER, PASS);
     }
 }
+
 
