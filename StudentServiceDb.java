@@ -12,7 +12,7 @@ public class StudentServiceDb {
 
     public Student addStudent(Student s) {
         try {
-            return dao.save(s); // change to insert/save depending on your DAO
+            return dao.save(s);
         } catch (Exception e) {
             throw new RuntimeException("Failed to add student", e);
         }
@@ -49,3 +49,4 @@ public class StudentServiceDb {
         }
     }
 }
+
