@@ -18,7 +18,7 @@ public class StudentService {
     }
 
     public List<Student> listAll() {
-        return new ArrayList<>(students); // defensive copy
+        return new ArrayList<>(students);
     }
 
     public Optional<Student> getById(int id) {
@@ -44,3 +44,4 @@ public class StudentService {
         nextId = 1;
     }
 }
+
