@@ -74,6 +74,11 @@ public class Main {
             else all.forEach(System.out::println);
         } catch (RuntimeException e) {
             System.err.println("Failed to list students: " + brief(e));
+             Throwable c = e.getCause();
+            if (c instanceof java.sql.SQLException sq) {
+                System.err.println("SQLState=" + sq.getSQLState() +
+                        " errorCode=" + sq.getErrorCode() +
+                        " message=" + sq.getMessage());
         }
     }
 
@@ -140,10 +145,10 @@ public class Main {
         }
 
         if (t instanceof SQLException sq) {
-            // MySQL duplicate key
+            
             if (sq.getErrorCode() == 1062) return true;
 
-            // Postgres/H2 unique violation (SQLState 23505)
+            
             if ("23505".equals(sq.getSQLState())) return true;
         }
 
