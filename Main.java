@@ -1,13 +1,13 @@
 package com.studentapp;
 
-import com.studentapp.model.Student;
-import com.studentapp.service.StudentServiceDb;
-
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+
+import com.studentapp.model.Student;
+import com.studentapp.service.StudentServiceDb;
 
 public class Main {
 
@@ -33,6 +33,7 @@ public class Main {
             }
         }
     }
+
 
     private static void printMenu() {
         System.out.println("\n=== Student Manager (DB) ===");
@@ -67,20 +68,40 @@ public class Main {
         }
     }
 
-    private static void viewAll() {
-        try {
-            List<Student> all = service.listAll();
-            if (all.isEmpty()) System.out.println("No students found.");
-            else all.forEach(System.out::println);
-        } catch (RuntimeException e) {
-            System.err.println("Failed to list students: " + brief(e));
-             Throwable c = e.getCause();
-            if (c instanceof java.sql.SQLException sq) {
-                System.err.println("SQLState=" + sq.getSQLState() +
-                        " errorCode=" + sq.getErrorCode() +
-                        " message=" + sq.getMessage());
+private static void viewAll() {
+    try {
+        List<Student> all = service.listAll();
+        if (all.isEmpty()) System.out.println("No students found.");
+        else all.forEach(System.out::println);
+    } catch (RuntimeException e) {
+        System.err.println("Failed to list students: " + brief(e));
+        // print full stack trace so you can see the root cause and line numbers
+        e.printStackTrace(System.err);
+
+        Throwable c = e.getCause();
+        if (c == null) return;
+
+        // If it's our DaoException, show its message + nested cause
+        System.err.println("Root cause: " + c.getClass().getName() + ": " + c.getMessage());
+        if (c instanceof java.sql.SQLException sq) {
+            System.err.println("SQLState=" + sq.getSQLState() +
+                    ", errorCode=" + sq.getErrorCode() +
+                    ", message=" + sq.getMessage());
+            sq.printStackTrace(System.err);
+        } else {
+            // print nested cause chain
+            Throwable inner = c.getCause();
+            while (inner != null) {
+                System.err.println("Caused by: " + inner.getClass().getName() + ": " + inner.getMessage());
+                if (inner instanceof java.sql.SQLException isq) {
+                    System.err.println("  SQLState=" + isq.getSQLState() + ", errorCode=" + isq.getErrorCode());
+                }
+                inner = inner.getCause();
+            }
         }
     }
+}
+
 
     private static void searchById(Scanner sc) {
         Integer id = readId(sc, "Enter ID: ");
@@ -118,6 +139,7 @@ public class Main {
     private static void deleteStudent(Scanner sc) {
         Integer id = readId(sc, "Enter ID to delete: ");
         if (id == null) return;
+
         try {
             boolean ok = service.deleteStudent(id);
             System.out.println(ok ? "Deleted." : "Not found.");
@@ -125,17 +147,19 @@ public class Main {
             System.err.println("Failed to delete: " + brief(e));
         }
     }
+private static Integer readId(Scanner sc, String prompt) {
+    System.out.print(prompt);
+    String line = sc.nextLine().trim();
 
-    private static Integer readId(Scanner sc, String prompt) {
-        System.out.print(prompt);
-        String line = sc.nextLine().trim();
-        try {
-            return Integer.parseInt(line);
-        } catch (NumberFormatException ex) {
-            System.out.println("Invalid id format.");
-            return null;
-        }
+    try {
+        return Integer.valueOf(line);
+    } catch (NumberFormatException ex) {
+        throw new IllegalArgumentException("ID must be numeric: '" + line + "'");
     }
+}
+
+
+
 
     private static boolean isDuplicateKeyError(Throwable t) {
         if (t == null) return false;
@@ -145,10 +169,10 @@ public class Main {
         }
 
         if (t instanceof SQLException sq) {
-            
+            // MySQL duplicate key
             if (sq.getErrorCode() == 1062) return true;
 
-            
+            // Postgres/H2 unique violation (SQLState 23505)
             if ("23505".equals(sq.getSQLState())) return true;
         }
 
