@@ -1,26 +1,30 @@
 package com.studentapp.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.studentapp.dao.DaoException;
 import com.studentapp.dao.StudentDao;
 import com.studentapp.dao.StudentDaoJdbc;
 import com.studentapp.model.Student;
 
-import java.util.List;
-import java.util.Optional;
-
+@Service
 public class StudentServiceDb {
     private final StudentDao dao = new StudentDaoJdbc();
 
     public Student addStudent(Student s) {
         try {
             return dao.save(s);
-        } catch (Exception e) {
+        } catch (DaoException e) {
             throw new RuntimeException("Failed to add student", e);
         }
     }
     public List<Student> listAll() {
         try {
             return dao.findAll();
-        } catch (Exception e) {
+        } catch (DaoException e) {
             throw new RuntimeException("Failed to list students", e);
         }
     }
@@ -28,7 +32,7 @@ public class StudentServiceDb {
     public Optional<Student> getById(int id) {
         try {
             return dao.findById(id);
-        } catch (Exception e) {
+        } catch (DaoException e) {
             throw new RuntimeException("Failed to get student", e);
         }
     }
@@ -36,7 +40,7 @@ public class StudentServiceDb {
     public boolean updateStudent(int id, Student newData) {
         try {
             return dao.update(id, newData);
-        } catch (Exception e) {
+        } catch (DaoException e) {
             throw new RuntimeException("Failed to update student", e);
         }
     }
@@ -44,9 +48,9 @@ public class StudentServiceDb {
     public boolean deleteStudent(int id) {
         try {
             return dao.delete(id);
-        } catch (Exception e) {
+        } catch (DaoException e) {
             throw new RuntimeException("Failed to delete student", e);
         }
     }
-}
 
+}
