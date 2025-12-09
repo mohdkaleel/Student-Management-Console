@@ -1,0 +1,55 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Add / Edit Student</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3fbf6;--card:#fff;--accent:#16a34a;--muted:#6b7280;--radius:10px;--shadow:0 8px 24px rgba(6,95,70,0.06);--max-width:680px}
+*{box-sizing:border-box}
+body{font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);margin:0;color:#0f172a}
+.wrap{max-width:var(--max-width);margin:36px auto;padding:18px}
+.card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+h1{margin:0 0 10px;font-weight:600}
+form{display:grid;gap:12px}
+label{font-size:14px;color:var(--muted)}
+input[type=text], input[type=email], input[type=number]{padding:10px;border-radius:8px;border:1px solid #e6eef0}
+.row{display:flex;gap:12px}
+.actions{display:flex;gap:8px;margin-top:8px}
+.btn{padding:10px 12px;border-radius:8px;border:0;cursor:pointer;font-weight:600}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-cancel{background:#fff;border:1px solid #e6eef0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="card">
+<a th:href="@{/students}" class="btn btn-cancel" style="margin-bottom:12px;display:inline-block">Back to list</a>
+<h1 th:text="${student.id} != null ? 'Create a Student' : 'Add Student'">Form</h1>
+
+<form th:action="@{/students/save}" th:object="${student}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <div>
+        <label>Name</label>
+        <input th:field="*{name}" placeholder="Full name" required/>
+    </div>
+
+    <div>
+        <label>Email</label>
+        <input th:field="*{email}" type="email" placeholder="Email" required/>
+    </div>
+
+    <div>
+        <label>Grade</label>
+        <input th:field="*{grade}" placeholder="Grade" required/>
+    </div>
+
+    <div class="actions">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a th:href="@{/students}" class="btn btn-cancel">Cancel</a>
+    </div>
+</form>
+
+</html>

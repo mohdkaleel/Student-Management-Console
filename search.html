@@ -1,0 +1,58 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Search Student by ID</title>
+
+  <!-- global stylesheet you created earlier -->
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    /* small local tweaks just for this page */
+    .row { display:flex; gap:12px; align-items:center; margin:12px 0; }
+    label { min-width:120px; color:#555; }
+    input[type="number"] { padding:10px; border-radius:8px; border:1px solid #ddd; width:180px; }
+    .actions { margin-top:14px; display:flex; gap:8px; }
+    .muted { color:#666; margin-top:10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a th:href="@{/menu}" class="btn back-btn">← Back to menu</a>
+
+    <h2>Search by ID</h2>
+
+    <form th:action="@{/students/search}" method="get" class="card">
+      <div class="row">
+        <label for="id">Enter student ID</label>
+        <input id="id" name="id" type="number" placeholder="e.g. 1" required />
+      </div>
+
+      <div class="actions">
+        <button class="btn" type="submit">Search</button>
+        <a th:href="@{/students}" class="btn back-btn">Back to list</a>
+      </div>
+    </form>
+
+    <!-- Result was added to the model by controller: model.addAttribute("result", optional.orElse(null)) -->
+    <div th:if="${result != null}" class="card" style="margin-top:16px;">
+      <h3>Found student</h3>
+      <p><b>ID:</b> <span th:text="${result.id}">1</span></p>
+      <p><b>Name:</b> <span th:text="${result.name}">Name</span></p>
+      <p><b>Email:</b> <span th:text="${result.email}">email</span></p>
+      <p><b>Grade:</b> <span th:text="${result.grade}">A</span></p>
+
+      <p style="margin-top:10px;">
+        <a th:href="@{/students/edit/{id}(id=${result.id})}" class="btn">Update</a>
+        <a th:href="@{/students/delete/{id}(id=${result.id})}" class="btn" style="background:#d9534f">Delete</a>
+        <a th:href="@{/students}" class="btn back-btn">Back to list</a>
+        <a th:href="@{/menu}" class="btn back-btn">Back to menu</a>
+      </p>
+    </div>
+
+    <div th:if="${result == null}" class="card muted" style="margin-top:16px;">
+      <p>No student found. Try another ID or use the list.</p>
+    </div>
+  </div>
+</body>
+</html>

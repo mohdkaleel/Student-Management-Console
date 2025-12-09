@@ -1,0 +1,72 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Student Management — Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#f3fbf6;
+--card:#ffffff;
+--muted:#6b7280;
+--accent:#16a34a; /* green */
+--accent-600:#14903f;
+--accent-100:#ecfdf3;
+--radius:10px;
+--shadow:0 8px 24px rgba(6,95,70,0.06);
+--max-width:980px;
+}
+*{box-sizing:border-box}
+body{font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);margin:0;color:#0f172a}
+.container{max-width:var(--max-width);margin:48px auto;padding:20px}
+.card{background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow)}
+h1{margin:0 0 12px;font-weight:600}
+p.lead{color:var(--muted);margin:0 0 20px}
+.nav{display:flex;gap:12px;margin-top:18px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:0;cursor:pointer;text-decoration:none;font-weight:600}
+.btn-primary{background:linear-gradient(180deg,var(--accent),var(--accent-600));color:#fff}
+.btn-ghost{background:transparent;border:1px solid rgba(15,23,42,0.06);color:var(--muted)}
+ul.menu{display:flex;flex-direction:column;gap:10px;padding-left:18px}
+ul.menu a{color:var(--accent);text-decoration:none;font-weight:600}
+.footer{margin-top:18px;color:var(--muted);font-size:14px}
+@media(min-width:720px){ul.menu{flex-direction:row;gap:18px}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="card">
+<h1>Student Management</h1>
+
+
+<ul class="menu" style="display:flex;flex-direction:column;gap:14px;padding:0;list-style:none;margin-top:20px">
+<li><a th:href="@{/students}" class="menu-item">List Students</a></li>
+<li><a th:href="@{/students/add}" class="menu-item">Add Student</a></li>
+<li><a th:href="@{/students/search}" class="menu-item">Search by ID</a></li>
+<li><a th:href="@{/exit}" class="menu-item">Exit</a></li>
+</ul>
+
+<style>
+.menu-item{
+display:block;
+width:100%;
+padding:14px 18px;
+background:var(--accent-100);
+border:1px solid rgba(0,0,0,0.05);
+border-radius:10px;
+font-weight:600;
+color:var(--accent);
+text-decoration:none;
+transition:0.15s ease-in-out;
+}
+.menu-item:hover{
+background:var(--accent);
+color:#fff;
+}
+</style>
+
+<div class="footer">Welcome back — manage students quickly and clearly.</div>
+</div>
+</div>
+</body>
+</html>

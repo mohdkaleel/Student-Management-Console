@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Students</title>
+
+    <!-- global stylesheet -->
+    <link rel="stylesheet" href="/styles.css"/>
+
+    <style>
+        /* Page-specific tweaks */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 960px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f7f7f7;
+            font-weight: bold;
+            color: #333;
+        }
+
+        tr:hover {
+            background: #fafafa;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .top-actions {
+            max-width: 960px;
+            margin: 10px auto;
+            display: flex;
+            justify-content: flex-start;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Student List</h1>
+
+    <div class="top-actions">
+        <a th:href="@{/menu}" class="btn back-btn">← Back to Menu</a>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Grade</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="s : ${students}">
+            <td th:text="${s.id}">1</td>
+            <td th:text="${s.name ?: '—'}">Full name</td>
+            <td th:text="${s.email ?: '—'}">email@example.com</td>
+            <td th:text="${s.grade ?: '—'}">A</td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>
