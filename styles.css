@@ -1,0 +1,262 @@
+/* styles.css — put in src/main/resources/static/css/styles.css */
+
+/* Google-font is already included in your templates; fallback stack below */
+:root{
+  --bg: #f6fbf9;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent: #059669;     /* emerald */
+  --accent-600: #047857;
+  --danger: #ef4444;
+  --radius: 12px;
+  --shadow-sm: 0 4px 12px rgba(6,95,70,0.06);
+  --shadow-md: 0 10px 30px rgba(6,95,70,0.08);
+  --max-width: 1100px;
+  --gap: 16px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, #f7fdfa 0%, var(--bg) 100%);
+  color: #0f172a;
+  margin: 0;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+}
+
+/* Layout container */
+.container, .wrap {
+  max-width: var(--max-width);
+  margin: 36px auto;
+  padding: 20px;
+}
+
+/* Card */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+  overflow: hidden;
+}
+
+/* Header / page title */
+.page-header{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.page-title{
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0;
+  color: #032017;
+}
+.page-sub{
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* Buttons */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight:600;
+  border: 0;
+  cursor:pointer;
+  text-decoration:none;
+  color: white;
+  background: linear-gradient(180deg, var(--accent), var(--accent-600));
+  transition: transform .08s ease, box-shadow .08s ease, opacity .12s;
+  box-shadow: 0 6px 18px rgba(4,120,87,0.06);
+}
+.btn:hover{ transform: translateY(-2px); }
+.btn-muted{
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid #eef3f1;
+  box-shadow: none;
+}
+.btn-danger{
+  background: linear-gradient(180deg, #ef4444, #dc2626);
+  box-shadow: 0 8px 20px rgba(220,38,38,0.06);
+}
+
+/* Utility links */
+.link{
+  color: var(--accent-600);
+  text-decoration:none;
+  font-weight:600;
+}
+.link:hover{ text-decoration:underline; }
+
+/* Forms */
+form {
+  display:block;
+  gap:12px;
+}
+.form-row{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-bottom: 12px;
+}
+.form-row .field{
+  flex: 1 1 auto;
+}
+label{
+  display:block;
+  font-size:0.9rem;
+  color: var(--muted);
+  margin-bottom:6px;
+}
+input[type="text"], input[type="email"], input[type="number"], textarea, select {
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid #e6eef0;
+  background: #fff;
+  font-size: 0.95rem;
+  outline: none;
+}
+input:focus, textarea:focus, select:focus{
+  border-color: var(--accent-600);
+  box-shadow: 0 6px 18px rgba(5,150,105,0.06);
+}
+
+/* Table styles */
+.table {
+  width:90%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 1rem;
+   margin-left: auto;
+  margin-right: auto;
+}
+.table thead th{
+  text-align:center;
+  font-weight:600;
+  color: var(--muted);
+  padding: 12px;
+  border-bottom: 1px solid #f0f3f2;
+  background: transparent;
+}
+.table tbody td{
+  padding: 12px;
+  border-bottom: 1px solid #f6f9f8;
+  vertical-align: middle;
+  color: #0f172a;
+}
+.table tbody tr:hover{
+  background: linear-gradient(90deg, rgba(5,150,105,0.03), transparent);
+}
+
+/* Small screens: transform table into stacked cards */
+@media (max-width: 780px){
+  .table, thead, tbody, th, td, tr { display:block; width:100%; }
+  thead { display:none; }
+  tbody tr {
+    display:block;
+    margin-bottom: 12px;
+    background: var(--card);
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-sm);
+  }
+  tbody td {
+    display:block;
+    padding: 6px 0;
+    border: none;
+  }
+  tbody td::before {
+    content: attr(data-label);
+    display:block;
+    font-weight:600;
+    color: var(--muted);
+    margin-bottom:6px;
+  }
+}
+
+/* Actions & badges */
+.row-actions a, .row-actions button {
+  margin-right: 8px;
+  font-weight:600;
+  color: var(--accent-600);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding:6px 8px;
+  border-radius:8px;
+}
+.row-actions a:hover, .row-actions button:hover {
+  background: rgba(5,150,105,0.06);
+}
+
+.badge {
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background: rgba(5,150,105,0.12);
+  color: var(--accent-600);
+  font-weight:600;
+  font-size:0.85rem;
+}
+
+/* Empty state */
+.empty {
+  padding: 28px;
+  text-align:center;
+  color: var(--muted);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(1, 121, 85, 0.02), rgba(255,255,255,0));
+}
+
+/* messages */
+.message-success {
+  color: #064e3b;
+  background: rgba(5,150,105,0.06);
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+.message-error {
+  color: #7f1d1d;
+  background: rgba(239,68,68,0.06);
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+/* Small utilities */
+.kv { display:flex; gap:12px; align-items:center; }
+.kv .k { color: var(--muted); min-width:90px; }
+.kv .v { font-weight:700; color: #0f172a; }
+
+/* Footer */
+.footer {
+  margin-top: 22px;
+  color: var(--muted);
+  font-size:0.9rem;
+  text-align:center;
+}
+
+/* tiny responsive tweaks */
+@media (min-width: 1200px) {
+  .container, .wrap { padding: 28px; }
+}
+
+/* menu-specific */
+.menu-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:18px; margin-top:20px; }
+.menu-card { background: linear-gradient(180deg,#fff,#fbfffc); border-radius:12px; padding:18px; box-shadow:0 8px 28px rgba(6,95,70,0.06); min-height:120px; display:flex; flex-direction:column; gap:12px; }
+.menu-card:hover { transform: translateY(-6px); box-shadow:0 18px 40px rgba(6,95,70,0.08); }
+.menu-card .title { font-weight:700; font-size:1.05rem; color:#032017; }
+.menu-card .desc { color:#6b7280; font-size:0.95rem; }
+.menu-actions a { text-decoration:none; font-weight:600; color:#065f46; background: rgba(5,150,105,0.06); padding:8px 10px; border-radius:8px; }

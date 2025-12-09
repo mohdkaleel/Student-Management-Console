@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Student Manager</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+        body{font-family:Arial,Helvetica,sans-serif;max-width:900px;margin:20px;}
+        table{border-collapse:collapse;width:100%;}
+        td,th{border:1px solid #ddd;padding:8px;}
+        th{background:#f4f4f4;}
+        input,button{padding:8px;margin:4px;}
+        .sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;}
+    </style>
+</head>
+<body>
+
+<h1>Student Manager</h1>
+
+<form id="addForm">
+    <div>
+        <label for="name">Name</label>
+        <input id="name" name="name" required>
+    </div>
+    <div>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required>
+    </div>
+    <div>
+        <label for="grade">Grade</label>
+        <input id="grade" name="grade" required>
+    </div>
+
+    <button type="submit">Add Student</button>
+    <button type="button" id="clearAll">Clear All</button>
+
+    <div id="status" class="sr-only" role="status" aria-live="polite"></div>
+</form>
+
+<h2>Students</h2>
+
+<table id="studentsTable">
+    <caption>List of students</caption>
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Grade</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+</table>
+
+<script>
+    const base = "/api/students";
+
+    function escapeHtml(t){
+      return t.replace(/&/g,"&amp;")
+              .replace(/</g,"&lt;")
+              .replace(/>/g,"&gt;")
+              .replace(/"/g,"&quot;");
+    }
+
+    function showStatus(msg){
+      const s=document.getElementById("status");
+      s.textContent=msg;
+    }
+
+    async function load(){
+      const res = await fetch(base);
+      const body = document.getElementById("rows");
+      body.innerHTML = "";
+
+      if(!res.ok){
+        showStatus("Failed to load students");
+        return;
+      }
+
+      const list = await res.json();
+
+      if(list.length === 0){
+        const row = document.createElement("tr");
+        row.innerHTML = "<td colspan='5'>No students available</td>";
+        body.appendChild(row);
+        return;
+      }
+
+      list.forEach(st => {
+        const row = document.createElement("tr");
+        row.innerHTML =
+          "<td>"+escapeHtml(String(st.id))+"</td>"+
+          "<td>"+escapeHtml(st.name)+"</td>"+
+          "<td>"+escapeHtml(st.email)+"</td>"+
+          "<td>"+escapeHtml(st.grade)+"</td>"+
+          "<td><button data-id='"+st.id+"' class='deleteBtn'>Delete</button></td>";
+        body.appendChild(row);
+      });
+
+      document.querySelectorAll(".deleteBtn").forEach(btn=>{
+        btn.addEventListener("click", async ()=>{
+          await fetch(base + "/" + btn.dataset.id, { method:"DELETE" });
+          load();
+        });
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+      document.getElementById("addForm")
+        .addEventListener("submit", async (e)=>{
+          e.preventDefault();
+          const student = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            grade: document.getElementById("grade").value
+          };
+          await fetch(base, {
+            method:"POST",
+            headers:{ "Content-Type":"application/json" },
+            body: JSON.stringify(student)
+          });
+          e.target.reset();
+          load();
+        });
+
+      document.getElementById("clearAll")
+        .addEventListener("click", async ()=>{
+          await fetch(base, { method:"DELETE" });
+          load();
+        });
+
+      load();
+    });
+</script>
+
+</body>
+</html>
