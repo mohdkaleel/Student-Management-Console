@@ -89,15 +89,14 @@ public class StudentWebController {
 public String searchById(@RequestParam(value = "id", required = false) Integer id, Model model) {
     if (id != null) {
         Optional<Student> s = service.getById(id);
-        model.addAttribute("result", s.orElse(null)); // <- must use "result"
-    
+        model.addAttribute("result", s.orElse(null)); 
     }
     return "search";
 }
-
 
     @GetMapping("/exit")
     public String exit() {
         return "exit";
     }
 }
+
