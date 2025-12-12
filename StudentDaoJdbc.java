@@ -24,7 +24,6 @@ public class StudentDaoJdbc implements StudentDao {
             ps.setString(3, student.getGrade());
             int count = ps.executeUpdate();
             if (count == 0) throw new DaoException("Insert failed, no rows affected.");
-
             try (ResultSet keys = ps.getGeneratedKeys()) {
                 if (keys.next()) student.setId(keys.getInt(1));
             }
@@ -93,8 +92,6 @@ public class StudentDaoJdbc implements StudentDao {
     }
 
 
-
-
     private Student mapRow(ResultSet rs) throws SQLException {
         Student s = new Student();
         s.setId(rs.getInt("id"));
@@ -104,3 +101,4 @@ public class StudentDaoJdbc implements StudentDao {
         return s;
     }
 }
+
