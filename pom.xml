@@ -67,7 +67,7 @@
   <build>
     <pluginManagement>
       <plugins>
-        <!-- central place to declare plugin versions -->
+    
         <plugin>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
@@ -83,7 +83,6 @@
     </pluginManagement>
 
     <plugins>
-      <!-- actual plugin usage — no <version> here because pluginManagement provides it -->
      <plugin>
   <groupId>org.apache.maven.plugins</groupId>
   <artifactId>maven-compiler-plugin</artifactId>
