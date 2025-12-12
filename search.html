@@ -5,11 +5,10 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Search Student by ID</title>
 
-  <!-- global stylesheet you created earlier -->
+ 
   <link rel="stylesheet" href="/styles.css">
   <style>
-    /* small local tweaks just for this page */
-    .row { display:flex; gap:12px; align-items:center; margin:12px 0; }
+     .row { display:flex; gap:12px; align-items:center; margin:12px 0; }
     label { min-width:120px; color:#555; }
     input[type="number"] { padding:10px; border-radius:8px; border:1px solid #ddd; width:180px; }
     .actions { margin-top:14px; display:flex; gap:8px; }
@@ -34,7 +33,6 @@
       </div>
     </form>
 
-    <!-- Result was added to the model by controller: model.addAttribute("result", optional.orElse(null)) -->
     <div th:if="${result != null}" class="card" style="margin-top:16px;">
       <h3>Found student</h3>
       <p><b>ID:</b> <span th:text="${result.id}">1</span></p>
@@ -56,3 +54,4 @@
   </div>
 </body>
 </html>
+
