@@ -75,13 +75,9 @@ private static void viewAll() {
         else all.forEach(System.out::println);
     } catch (RuntimeException e) {
         System.err.println("Failed to list students: " + brief(e));
-        // print full stack trace so you can see the root cause and line numbers
         e.printStackTrace(System.err);
-
         Throwable c = e.getCause();
         if (c == null) return;
-
-        // If it's our DaoException, show its message + nested cause
         System.err.println("Root cause: " + c.getClass().getName() + ": " + c.getMessage());
         if (c instanceof java.sql.SQLException sq) {
             System.err.println("SQLState=" + sq.getSQLState() +
@@ -89,7 +85,6 @@ private static void viewAll() {
                     ", message=" + sq.getMessage());
             sq.printStackTrace(System.err);
         } else {
-            // print nested cause chain
             Throwable inner = c.getCause();
             while (inner != null) {
                 System.err.println("Caused by: " + inner.getClass().getName() + ": " + inner.getMessage());
@@ -139,7 +134,6 @@ private static void viewAll() {
     private static void deleteStudent(Scanner sc) {
         Integer id = readId(sc, "Enter ID to delete: ");
         if (id == null) return;
-
         try {
             boolean ok = service.deleteStudent(id);
             System.out.println(ok ? "Deleted." : "Not found.");
@@ -150,7 +144,6 @@ private static void viewAll() {
 private static Integer readId(Scanner sc, String prompt) {
     System.out.print(prompt);
     String line = sc.nextLine().trim();
-
     try {
         return Integer.valueOf(line);
     } catch (NumberFormatException ex) {
@@ -163,19 +156,13 @@ private static Integer readId(Scanner sc, String prompt) {
 
     private static boolean isDuplicateKeyError(Throwable t) {
         if (t == null) return false;
-
         if (t instanceof SQLIntegrityConstraintViolationException) {
             return true;
         }
-
         if (t instanceof SQLException sq) {
-            // MySQL duplicate key
             if (sq.getErrorCode() == 1062) return true;
-
-            // Postgres/H2 unique violation (SQLState 23505)
             if ("23505".equals(sq.getSQLState())) return true;
         }
-
         return isDuplicateKeyError(t.getCause());
     }
 
