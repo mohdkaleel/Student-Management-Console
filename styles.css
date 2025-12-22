@@ -3,8 +3,8 @@
   --bg: #f6fbf9;
   --card: #ffffff;
   --muted: #6b7280;
-  --accent: #059669;     
   --accent-600: #047857;
+  --accent: #059669;     
   --danger: #ef4444;
   --radius: 12px;
   --shadow-sm: 0 4px 12px rgba(6,95,70,0.06);
@@ -258,4 +258,5 @@ input:focus, textarea:focus, select:focus{
 .menu-card .title { font-weight:700; font-size:1.05rem; color:#032017; }
 .menu-card .desc { color:#6b7280; font-size:0.95rem; }
 .menu-actions a { text-decoration:none; font-weight:600; color:#065f46; background: rgba(5,150,105,0.06); padding:8px 10px; border-radius:8px; }
+
 
